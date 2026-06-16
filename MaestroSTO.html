@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Maestro — преміальний автосервіс у Хмельницькому. Ремонт будь-якої складності: двигун, підвіска, електроніка. Гарантія 12 місяців. Досвідчені майстри.">
+  <meta name="keywords" content="автосервіс Хмельницький, ремонт авто, Maestro, діагностика, ремонт двигуна, підвіска, електрика авто">
+  <meta property="og:title" content="Maestro — Ремонт будь-якої складності">
+  <meta property="og:description" content="Преміальний автосервіс. Ремонт будь-якої складності з гарантією 12 місяців.">
+  <meta property="og:type" content="website">
+  <title>Maestro — Ремонт будь-якої складності | Хмельницький</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    :root {
+      --bg0: #06070C;
+      --bg1: #08090F;
+      --bg2: #0C0E18;
+      --bg3: #111420;
+      --glass: rgba(14,16,26,0.65);
+      --glass-border: rgba(255,255,255,0.07);
+      --glass-border-hover: rgba(255,87,0,0.38);
+      --accent: #FF4D00;
+      --accent-b: #FF7530;
+      --accent-dim: rgba(255,77,0,0.12);
+      --accent-glow: rgba(255,77,0,0.22);
+      --txt: #EEF0F7;
+      --txt2: #888D9E;
+      --txt3: #3E4254;
+      --fdisp: 'Exo 2', sans-serif;
+      --fbody: 'Inter', sans-serif;
+      --nav-h: 72px;
+      --r: 14px;
+      --rl: 20px;
+      --ease: cubic-bezier(0.4,0,0.2,1);
+      --px: max(24px, calc((100% - 1260px) / 2));
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { font-family: var(--fbody); background: var(--bg1); color: var(--txt); line-height: 1.6; overflow-x: hidden; }
+    img { max-width: 100%; height: auto; display: block; }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+    /* ── PROGRESS ── */
+    #pgbar { position: fixed; top: 0; left: 0; height: 3px; width: 0%; background: linear-gradient(90deg,var(--accent),var(--accent-b)); z-index: 9999; transition: width .1s linear; }
+
+    /* ── NAV ── */
+    .nav { position: fixed; top: 0; left: 0; right: 0; height: var(--nav-h); z-index: 200; transition: background .35s var(--ease), box-shadow .35s var(--ease); padding: 0 var(--px); }
+    .nav.scrolled { background: rgba(6,7,12,0.88); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); box-shadow: 0 1px 0 rgba(255,255,255,0.05); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 100%; }
+    .logo { font-family: var(--fdisp); font-weight: 900; font-size: 1.2rem; letter-spacing: .06em; }
+    .logo-a { color: var(--accent); }
+    .logo-b { color: var(--txt); }
+    .nav-links { display: flex; align-items: center; gap: 1.875rem; }
+    .nav-links a { font-size: .85rem; font-weight: 500; color: var(--txt2); letter-spacing: .02em; position: relative; transition: color .28s; }
+    .nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--accent); transition: width .28s var(--ease); border-radius: 2px; }
+    .nav-links a:hover { color: var(--txt); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta { font-family: var(--fdisp); font-weight: 700; font-size: .85rem; padding: 9px 22px; background: var(--accent); color: #fff; border-radius: 8px; letter-spacing: .04em; transition: all .28s; }
+    .nav-cta:hover { background: var(--accent-b); box-shadow: 0 4px 22px var(--accent-glow); transform: translateY(-1px); }
+    .burger { display: none; flex-direction: column; gap: 5px; width: 28px; cursor: pointer; }
+    .burger span { display: block; height: 2px; background: var(--txt); border-radius: 2px; transition: .28s var(--ease); }
+    .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .burger.open span:nth-child(2) { opacity: 0; }
+    .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mob-menu { display: none; position: fixed; top: var(--nav-h); left: 0; right: 0; background: rgba(6,7,12,.97); backdrop-filter: blur(24px); padding: 1.5rem var(--px) 2rem; flex-direction: column; gap: 1.1rem; z-index: 199; border-bottom: 1px solid var(--glass-border); }
+    .mob-menu.open { display: flex; }
+    .mob-menu a { font-family: var(--fdisp); font-weight: 500; font-size: 1.1rem; color: var(--txt2); padding: 9px 0; border-bottom: 1px solid var(--glass-border); transition: color .25s; }
+    .mob-menu a:hover { color: var(--accent); }
+    .mob-menu .nav-cta { text-align: center; padding: 13px; border-radius: 10px; border-bottom: none; margin-top: 6px; }
+
+    /* ── SECTION SHELL ── */
+    .s { padding: 96px var(--px); }
+    .lbl { display: inline-flex; align-items: center; gap: 9px; font-family: var(--fdisp); font-size: .73rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: .9rem; }
+    .lbl::before { content: ''; display: block; width: 20px; height: 2px; background: var(--accent); border-radius: 2px; }
+    .h2 { font-family: var(--fdisp); font-size: clamp(1.75rem,3.5vw,2.75rem); font-weight: 800; line-height: 1.12; color: var(--txt); margin-bottom: .85rem; }
+    .h2 em { font-style: normal; color: var(--accent); }
+    .sub { font-size: 1rem; color: var(--txt2); max-width: 540px; line-height: 1.75; }
+
+    /* ── REVEAL ── */
+    .rv { opacity: 0; transform: translateY(30px); transition: opacity .65s var(--ease), transform .65s var(--ease); }
+    .rv.on { opacity: 1; transform: none; }
+    .d1 { transition-delay: .1s; } .d2 { transition-delay: .2s; } .d3 { transition-delay: .3s; } .d4 { transition-delay: .4s; } .d5 { transition-delay: .5s; }
+
+    /* ── HERO ── */
+    .hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; overflow: hidden;
+      padding: calc(var(--nav-h) + 64px) var(--px) 0;
+      background-image:
+        linear-gradient(155deg,rgba(6,7,12,.97) 0%,rgba(6,7,12,.72) 55%,rgba(6,7,12,.93) 100%),
+        url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1920&q=80');
+      background-size: cover; background-position: center; background-attachment: fixed; }
+    .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent 5%, var(--accent) 40%, var(--accent-b) 60%, transparent 95%); animation: pulse-line 4s ease-in-out infinite; }
+    @keyframes pulse-line { 0%,100%{opacity:.35}50%{opacity:1} }
+    .hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 220px; background: linear-gradient(to top,var(--bg2),transparent); pointer-events: none; }
+    .hero-eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: var(--fdisp); font-size: .72rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.4rem; animation: fadeUp .7s var(--ease) .1s both; }
+    .hero-eyebrow::before { content: ''; width: 36px; height: 2px; background: var(--accent); border-radius: 2px; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; background: rgba(255,255,255,.05); backdrop-filter: blur(14px); border: 1px solid rgba(255,255,255,.1); border-radius: 100px; font-size: .83rem; color: var(--txt2); margin-bottom: 1.6rem; animation: fadeUp .7s var(--ease) .2s both; }
+    .hero-badge i { color: #4CAF50; font-size: .8rem; }
+    .hero-h1 { font-family: var(--fdisp); font-size: clamp(2.8rem,7vw,6rem); font-weight: 900; line-height: 1.02; color: var(--txt); margin-bottom: 1.5rem; animation: fadeUp .7s var(--ease) .3s both; }
+    .hero-h1 .acc { color: var(--accent); }
+    .hero-h1 .out { -webkit-text-stroke: 1.5px var(--txt); color: transparent; }
+    .hero-desc { font-size: clamp(.95rem,1.5vw,1.15rem); color: var(--txt2); max-width: 500px; line-height: 1.8; margin-bottom: 2.4rem; animation: fadeUp .7s var(--ease) .4s both; }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 5rem; animation: fadeUp .7s var(--ease) .5s both; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none} }
+    .btn-p { font-family: var(--fdisp); font-weight: 700; font-size: .98rem; padding: 14px 32px; background: var(--accent); color: #fff; border-radius: 9px; letter-spacing: .03em; transition: all .28s; display: inline-flex; align-items: center; gap: 9px; }
+    .btn-p:hover { background: var(--accent-b); box-shadow: 0 8px 32px var(--accent-glow); transform: translateY(-2px); }
+    .btn-s { font-family: var(--fdisp); font-weight: 700; font-size: .98rem; padding: 14px 32px; background: rgba(255,255,255,.06); backdrop-filter: blur(10px); color: var(--txt); border: 1px solid rgba(255,255,255,.14); border-radius: 9px; letter-spacing: .03em; transition: all .28s; display: inline-flex; align-items: center; gap: 9px; }
+    .btn-s:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.28); transform: translateY(-2px); }
+    .hero-stats { display: flex; gap: 0; border-top: 1px solid var(--glass-border); padding-top: 2rem; margin-bottom: 90px; animation: fadeUp .7s var(--ease) .6s both; }
+    .hstat { flex: 1; padding-right: 2rem; border-right: 1px solid var(--glass-border); }
+    .hstat + .hstat { padding-left: 2rem; }
+    .hstat:last-child { border-right: none; padding-right: 0; }
+    .hstat-n { font-family: var(--fdisp); font-size: 2.4rem; font-weight: 900; color: var(--accent); line-height: 1; margin-bottom: 4px; }
+    .hstat-l { font-size: .83rem; color: var(--txt2); }
+
+    /* ── SERVICES ── */
+    .services { background: var(--bg2); }
+    .svc-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap: 1.4rem; margin-top: 3rem; }
+    .svc-card { background: var(--glass); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid var(--glass-border); border-radius: var(--rl); padding: 2rem; transition: all .3s var(--ease); position: relative; overflow: hidden; }
+    .svc-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--accent),transparent); transform:scaleX(0); transform-origin:center; transition:transform .35s var(--ease); }
+    .svc-card:hover { border-color: var(--glass-border-hover); box-shadow: 0 8px 44px rgba(255,77,0,.13); transform: translateY(-5px); }
+    .svc-card:hover::before { transform: scaleX(1); }
+    .svc-ico { width: 54px; height: 54px; background: var(--accent-dim); border-radius: 13px; display: flex; align-items: center; justify-content: center; font-size: 1.35rem; color: var(--accent); margin-bottom: 1.2rem; transition: all .3s; }
+    .svc-card:hover .svc-ico { background: var(--accent); color: #fff; box-shadow: 0 4px 22px var(--accent-glow); }
+    .svc-t { font-family: var(--fdisp); font-size: 1.05rem; font-weight: 700; color: var(--txt); margin-bottom: .65rem; }
+    .svc-d { font-size: .88rem; color: var(--txt2); line-height: 1.65; }
+
+    /* ── PROBLEMS ── */
+    .problems { background: var(--bg1); }
+    .prob-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(270px,1fr)); gap: 1.4rem; margin-top: 3rem; }
+    .prob-card { background: var(--glass); backdrop-filter: blur(12px); border: 1px solid var(--glass-border); border-radius: var(--rl); padding: 2rem; transition: all .3s var(--ease); position: relative; overflow: hidden; }
+    .prob-card::after { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--accent),transparent); transform:scaleX(0); transition:transform .35s var(--ease); }
+    .prob-card:hover { border-color: rgba(255,77,0,.22); box-shadow: 0 8px 40px rgba(255,77,0,.09); transform: translateY(-4px); }
+    .prob-card:hover::after { transform: scaleX(1); }
+    .prob-emoji { font-size: 2.4rem; margin-bottom: .9rem; display: block; }
+    .prob-t { font-family: var(--fdisp); font-size: 1.1rem; font-weight: 700; color: var(--txt); margin-bottom: 1.2rem; }
+    .prob-rows { display: flex; flex-direction: column; gap: .8rem; }
+    .prob-row-lbl { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; margin-bottom: 3px; }
+    .lbl-d { color: #FF5050; }
+    .lbl-c { color: #FFB800; }
+    .lbl-s { color: #46C46E; }
+    .prob-row-txt { font-size: .86rem; color: var(--txt2); line-height: 1.55; }
+
+    /* ── WHY US ── */
+    .why { background: var(--bg2); }
+    .why-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 1.3rem; margin-top: 3rem; }
+    .why-card { text-align: center; padding: 2rem 1.2rem; background: var(--glass); backdrop-filter: blur(12px); border: 1px solid var(--glass-border); border-radius: var(--rl); transition: all .3s var(--ease); }
+    .why-card:hover { border-color: rgba(255,77,0,.28); transform: translateY(-5px); box-shadow: 0 8px 32px rgba(255,77,0,.1); }
+    .why-ico { width: 62px; height: 62px; background: var(--accent-dim); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.45rem; color: var(--accent); margin: 0 auto 1.2rem; transition: all .3s; }
+    .why-card:hover .why-ico { background: var(--accent); color: #fff; box-shadow: 0 4px 22px var(--accent-glow); }
+    .why-t { font-family: var(--fdisp); font-size: .93rem; font-weight: 700; color: var(--txt); margin-bottom: .45rem; }
+    .why-d { font-size: .81rem; color: var(--txt2); line-height: 1.6; }
+
+    /* ── ABOUT ── */
+    .about { background: var(--bg1); }
+    .about-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .about-img-wrap { position: relative; border-radius: var(--rl); overflow: hidden; box-shadow: -6px 6px 50px rgba(255,77,0,.12), 0 0 0 1px rgba(255,77,0,.15); }
+    .about-img { width: 100%; height: 490px; object-fit: cover; filter: brightness(.82) saturate(.9); border-radius: var(--rl); }
+    .about-bdg { position: absolute; bottom: 1.75rem; right: 1.75rem; background: rgba(6,7,12,.88); backdrop-filter: blur(18px); border: 1px solid var(--glass-border); border-radius: var(--r); padding: 1rem 1.4rem; text-align: center; }
+    .about-bdg-n { font-family: var(--fdisp); font-size: 2.4rem; font-weight: 900; color: var(--accent); line-height: 1; }
+    .about-bdg-l { font-size: .78rem; color: var(--txt2); margin-top: 4px; }
+    .about-txt p { color: var(--txt2); line-height: 1.8; margin-bottom: 1.15rem; }
+    .about-vals { display: grid; grid-template-columns: 1fr 1fr; gap: .85rem; margin-top: 1.85rem; }
+    .about-val { display: flex; align-items: flex-start; gap: 9px; font-size: .88rem; color: var(--txt2); }
+    .about-val i { color: var(--accent); margin-top: 2px; flex-shrink: 0; }
+
+    /* ── REVIEWS ── */
+    .reviews { background: var(--bg2); }
+    .rv-wrap { margin-top: 3rem; overflow: hidden; }
+    .rv-track { display: flex; gap: 1.4rem; transition: transform .5s var(--ease); will-change: transform; }
+    .rv-card { flex: 0 0 calc((100% - 2.8rem) / 3); background: var(--glass); backdrop-filter: blur(12px); border: 1px solid var(--glass-border); border-radius: var(--rl); padding: 1.85rem; transition: all .3s; }
+    .rv-card:hover { border-color: rgba(255,77,0,.22); box-shadow: 0 8px 32px rgba(255,77,0,.08); }
+    .rv-stars { color: var(--accent); font-size: .95rem; letter-spacing: 2px; margin-bottom: .9rem; }
+    .rv-txt { font-size: .88rem; color: var(--txt2); line-height: 1.72; margin-bottom: 1.4rem; font-style: italic; }
+    .rv-txt::before { content: '"'; } .rv-txt::after { content: '"'; }
+    .rv-author { display: flex; align-items: center; gap: .75rem; }
+    .rv-av { width: 42px; height: 42px; border-radius: 50%; background: var(--accent-dim); display: flex; align-items: center; justify-content: center; font-family: var(--fdisp); font-weight: 800; font-size: .9rem; color: var(--accent); border: 1px solid rgba(255,77,0,.28); flex-shrink: 0; }
+    .rv-name { font-family: var(--fdisp); font-weight: 700; font-size: .92rem; color: var(--txt); }
+    .rv-car { font-size: .78rem; color: var(--txt3); margin-top: 2px; }
+    .rv-ctrls { display: flex; justify-content: center; gap: 1rem; margin-top: 1.85rem; }
+    .rv-btn { width: 42px; height: 42px; border-radius: 50%; background: rgba(255,255,255,.05); border: 1px solid var(--glass-border); color: var(--txt); font-size: .95rem; display: flex; align-items: center; justify-content: center; transition: all .28s; cursor: pointer; }
+    .rv-btn:hover { background: var(--accent); border-color: var(--accent); box-shadow: 0 4px 16px var(--accent-glow); }
+
+    /* ── CONTACT FORM ── */
+    .contact { background: var(--bg1); }
+    .contact-inner { display: grid; grid-template-columns: 1fr 1.55fr; gap: 5rem; align-items: start; }
+    .ci-list { display: flex; flex-direction: column; gap: 1.2rem; margin-top: 2rem; }
+    .ci-item { display: flex; gap: .9rem; align-items: flex-start; }
+    .ci-ico { width: 42px; height: 42px; background: var(--accent-dim); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: .95rem; flex-shrink: 0; }
+    .ci-lbl { font-size: .73rem; color: var(--txt3); text-transform: uppercase; letter-spacing: .06em; font-weight: 700; margin-bottom: 3px; }
+    .ci-val { font-size: .92rem; color: var(--txt); }
+    .cf { background: var(--glass); backdrop-filter: blur(18px); border: 1px solid var(--glass-border); border-radius: var(--rl); padding: 2.4rem; }
+    .cf-h { font-family: var(--fdisp); font-size: 1.2rem; font-weight: 700; color: var(--txt); margin-bottom: 1.65rem; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.15rem; margin-bottom: 1.15rem; }
+    .fg { display: flex; flex-direction: column; gap: 7px; }
+    .fg.full { grid-column: 1 / -1; }
+    .fg label { font-size: .76rem; font-weight: 600; color: var(--txt2); letter-spacing: .04em; text-transform: uppercase; }
+    .fg input, .fg textarea { background: rgba(255,255,255,.04); border: 1px solid var(--glass-border); border-radius: 8px; padding: 11px 15px; color: var(--txt); font-family: var(--fbody); font-size: .93rem; transition: border-color .28s, box-shadow .28s; outline: none; resize: none; }
+    .fg input:focus, .fg textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
+    .fg input::placeholder, .fg textarea::placeholder { color: var(--txt3); }
+    .form-submit { width: 100%; font-family: var(--fdisp); font-weight: 700; font-size: .98rem; padding: 14px; background: var(--accent); color: #fff; border-radius: 9px; letter-spacing: .04em; transition: all .28s; display: flex; align-items: center; justify-content: center; gap: 9px; margin-top: 4px; }
+    .form-submit:hover { background: var(--accent-b); box-shadow: 0 6px 28px var(--accent-glow); transform: translateY(-1px); }
+    .form-ok { display: none; text-align: center; padding: 2rem; }
+    .form-ok-ico { font-size: 3rem; color: #46C46E; margin-bottom: 1rem; }
+    .form-ok-t { font-family: var(--fdisp); font-size: 1.45rem; font-weight: 800; color: var(--txt); margin-bottom: .5rem; }
+    .form-ok-d { color: var(--txt2); font-size: .9rem; line-height: 1.7; }
+
+    /* ── MAP SECTION ── */
+    .map-s { background: var(--bg2); }
+    .map-inner { display: grid; grid-template-columns: 1.55fr 1fr; gap: 3rem; align-items: start; }
+    .map-wrap { border-radius: var(--rl); overflow: hidden; border: 1px solid var(--glass-border); height: 420px; }
+    .map-wrap iframe { width: 100%; height: 100%; border: none; filter: grayscale(80%) brightness(.8) contrast(1.1); }
+    .contacts-list { display: flex; flex-direction: column; gap: 1.4rem; }
+    .ct-item { display: flex; gap: 1rem; align-items: flex-start; }
+    .ct-ico { width: 46px; height: 46px; background: var(--accent-dim); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 1.05rem; flex-shrink: 0; border: 1px solid rgba(255,77,0,.18); }
+    .ct-lbl { font-size: .73rem; text-transform: uppercase; letter-spacing: .08em; font-weight: 700; color: var(--txt3); margin-bottom: 4px; }
+    .ct-val { font-family: var(--fdisp); font-size: 1rem; font-weight: 600; color: var(--txt); }
+    .ct-val a { color: var(--txt); transition: color .25s; }
+    .ct-val a:hover { color: var(--accent); }
+    .wh { margin-top: 2rem; padding: 1.45rem; background: rgba(14,16,26,.5); border: 1px solid var(--glass-border); border-radius: var(--r); }
+    .wh-t { font-family: var(--fdisp); font-size: .82rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--txt2); margin-bottom: .7rem; }
+    .wh-row { display: flex; justify-content: space-between; font-size: .85rem; padding: 7px 0; border-bottom: 1px solid var(--glass-border); color: var(--txt2); }
+    .wh-row:last-child { border-bottom: none; }
+    .wh-row span:last-child { color: var(--txt); font-weight: 500; }
+
+    /* ── FOOTER ── */
+    .footer { background: var(--bg0); border-top: 1px solid var(--glass-border); padding: 2.5rem var(--px); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.25rem; }
+    .foot-links { display: flex; gap: 1.4rem; }
+    .foot-links a { font-size: .8rem; color: var(--txt3); transition: color .25s; }
+    .foot-links a:hover { color: var(--accent); }
+    .foot-copy { font-size: .78rem; color: var(--txt3); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1100px) {
+      .why-grid { grid-template-columns: repeat(3,1fr); }
+      .about-inner { gap: 3rem; }
+      .contact-inner { gap: 3rem; }
+      .map-inner { gap: 2rem; }
+    }
+    @media (max-width: 820px) {
+      .s { padding: 68px var(--px); }
+      .nav-links, .nav-cta { display: none; }
+      .burger { display: flex; }
+      .hero { background-attachment: scroll; padding-left: max(20px,5%); padding-right: max(20px,5%); }
+      .hero-h1 { font-size: clamp(2.4rem,9vw,3.4rem); }
+      .hero-stats { flex-wrap: wrap; }
+      .hstat { border-right: none; padding-right: 0; flex: 0 0 42%; padding-left: 0 !important; margin-bottom: 1rem; }
+      .svc-grid { grid-template-columns: 1fr; }
+      .prob-grid { grid-template-columns: 1fr; }
+      .why-grid { grid-template-columns: repeat(2,1fr); }
+      .why-card:nth-child(5) { grid-column: 1 / -1; max-width: 320px; margin: 0 auto; width: 100%; }
+      .about-inner { grid-template-columns: 1fr; }
+      .about-img { height: 280px; }
+      .rv-card { flex: 0 0 calc((100% - 1.4rem) / 2); }
+      .contact-inner { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .map-inner { grid-template-columns: 1fr; }
+      .map-wrap { height: 280px; }
+      .footer { flex-direction: column; text-align: center; }
+    }
+    @media (max-width: 520px) {
+      .hero-btns { flex-direction: column; }
+      .btn-p, .btn-s { justify-content: center; }
+      .why-grid { grid-template-columns: 1fr 1fr; }
+      .why-card:nth-child(5) { grid-column: 1 / -1; }
+      .rv-card { flex: 0 0 85%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Scroll progress -->
+  <div id="pgbar"></div>
+
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="#" class="logo" aria-label="Maestro — головна">
+        <span class="logo-a">WIN CODE</span><span class="logo-b"> GARAGE</span>
+      </a>
+      <ul class="nav-links" role="list">
+        <li><a href="#services">Послуги</a></li>
+        <li><a href="#problems">Проблеми</a></li>
+        <li><a href="#why">Переваги</a></li>
+        <li><a href="#about">Про нас</a></li>
+        <li><a href="#reviews">Відгуки</a></li>
+        <li><a href="#contacts">Контакти</a></li>
+      </ul>
+      <a href="#contact" class="nav-cta">Залишити заявку</a>
+      <button class="burger" id="burger" aria-label="Відкрити меню" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile menu -->
+  <nav class="mob-menu" id="mob-menu" aria-label="Мобільне меню">
+    <a href="#services" class="ml">Послуги</a>
+    <a href="#problems" class="ml">Типові проблеми</a>
+    <a href="#why" class="ml">Чому ми</a>
+    <a href="#about" class="ml">Про нас</a>
+    <a href="#reviews" class="ml">Відгуки</a>
+    <a href="#contacts" class="ml">Контакти</a>
+    <a href="#contact" class="nav-cta ml">Залишити заявку</a>
+  </nav>
+
+  <!-- ═══════════════ HERO ═══════════════ -->
+  <section class="hero" id="hero" aria-label="Головний екран">
+    <p class="hero-eyebrow">Авторизований автосервіс &mdash; Хмельницький</p>
+
+    <div class="hero-badge">
+      <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+      Тільки сьогодні записались <strong style="color:var(--txt);margin-left:3px">4 клієнти</strong>
+    </div>
+
+    <h1 class="hero-h1">
+      Ремонт<br>
+      <span class="acc">будь-якої</span><br>
+      <span class="out">складності</span>
+    </h1>
+
+    <p class="hero-desc">
+      Maestro &mdash; де передова діагностика зустрічається з майстерністю досвідчених механіків. Вирішуємо будь-які автомобільні проблеми швидко, якісно та з гарантією.
+    </p>
+
+    <div class="hero-btns">
+      <a href="#contact" class="btn-p">
+        <i class="fa-solid fa-clipboard-list" aria-hidden="true"></i>
+        Залишити заявку
+      </a>
+      <a href="tel:+380671234567" class="btn-s">
+        <i class="fa-solid fa-phone" aria-hidden="true"></i>
+        +38 (067) 123-45-67
+      </a>
+    </div>
+
+    <div class="hero-stats" role="list">
+      <div class="hstat" role="listitem">
+        <div class="hstat-n">10+</div>
+        <div class="hstat-l">Років досвіду</div>
+      </div>
+      <div class="hstat" role="listitem">
+        <div class="hstat-n">5000+</div>
+        <div class="hstat-l">Задоволених клієнтів</div>
+      </div>
+      <div class="hstat" role="listitem">
+        <div class="hstat-n">12 міс</div>
+        <div class="hstat-l">Гарантія на роботи</div>
+      </div>
+      <div class="hstat" role="listitem">
+        <div class="hstat-n">98%</div>
+        <div class="hstat-l">Позитивних відгуків</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ SERVICES ═══════════════ -->
+  <section class="s services" id="services" aria-labelledby="svc-h">
+    <p class="lbl">Що ми робимо</p>
+    <h2 class="h2" id="svc-h">Наші <em>послуги</em></h2>
+    <p class="sub">Повний спектр автомобільних послуг &mdash; від діагностики до складного ремонту двигуна. Один сервіс для всіх потреб.</p>
+
+    <div class="svc-grid">
+      <article class="svc-card rv">
+        <div class="svc-ico" aria-hidden="true"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+        <h3 class="svc-t">Комп'ютерна діагностика</h3>
+        <p class="svc-d">Точне визначення несправностей сучасним обладнанням Bosch. Виявляємо приховані проблеми до того, як вони стають серйозними.</p>
+      </article>
+      <article class="svc-card rv d1">
+        <div class="svc-ico" aria-hidden="true"><i class="fa-solid fa-gear"></i></div>
+        <h3 class="svc-t">Ремонт двигуна</h3>
+        <p class="svc-d">Капітальний та поточний ремонт двигунів будь-якого типу. Відновлення потужності та економічності вашого автомобіля.</p>
+      </article>
+      <article class="svc-card rv d2">
+        <div class="svc-ico" aria-hidden="true"><i class="fa-solid fa-car-side"></i></div>
+        <h3 class="svc-t">Ремонт підвіски</h3>
+        <p class="svc-d">Діагностика та заміна елементів ходової частини. Повертаємо плавність ходу та безпеку керування.</p>
+      </article>
+      <article class="svc-card rv d3">
+        <div class="svc-ico" aria-hidden="true"><i class="fa-solid fa-bolt"></i></div>
+        <h3 class="svc-t">Електрика та електроніка</h3>
+        <p class="svc-d">Усунення збоїв бортової електроніки та електрики. Програмування ЕБУ, діагностика та ремонт будь-якої складності.</p>
+      </article>
+      <article class="svc-card rv d4">
+        <div class="svc-ico" aria-hidden="true"><i class="fa-solid fa-oil-can"></i></div>
+        <h3 class="svc-t">ТО та заміна мастила</h3>
+        <p class="svc-d">Регламентне ТО за стандартами виробника. Лише оригінальні матеріали та запчастини. Подовжуємо термін служби авто.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ═══════════════ PROBLEMS ═══════════════ -->
+  <section class="s problems" id="problems" aria-labelledby="prob-h">
+    <p class="lbl">Знайома ситуація?</p>
+    <h2 class="h2" id="prob-h">Типові проблеми <em>автомобілів</em></h2>
+    <p class="sub">Maestro вирішує ці проблеми щодня. Не зволікайте &mdash; дрібна несправність може вилитися у великий ремонт.</p>
+
+    <div class="prob-grid">
+      <article class="prob-card rv">
+        <span class="prob-emoji" role="img" aria-label="Термометр">🌡️</span>
+        <h3 class="prob-t">Перегрів двигуна</h3>
+        <div class="prob-rows">
+          <div>
+            <p class="prob-row-lbl lbl-d">⚠ Небезпека</p>
+            <p class="prob-row-txt">Деформація головки блоку циліндрів та повний вихід двигуна з ладу.</p>
+          </div>
+          <div>
+            <p class="prob-row-lbl lbl-c">💸 Наслідки</p>
+            <p class="prob-row-txt">Капітальний ремонт або заміна двигуна вартістю від 30 000 грн.</p>
+          </div>
+          <div>
+            <p class="prob-row-lbl lbl-s">✓ Наше рішення</p>
+            <p class="prob-row-txt">Діагностика системи охолодження, заміна термостата, помпи або радіатора.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="prob-card rv d1">
+        <span class="prob-emoji" role="img" aria-label="Гайковий ключ">🔧</span>
+        <h3 class="prob-t">Шуми в підвісці</h3>
+        <div class="prob-rows">
+          <div>
+            <p class="prob-row-lbl lbl-d">⚠ Небезпека</p>
+            <p class="prob-row-txt">Зношені амортизатори та важелі можуть призвести до втрати контролю над авто.</p>
+          </div>
+          <div>
+            <p class="prob-row-lbl lbl-c">💸 Наслідки</p>
+            <p class="prob-row-txt">Нерівномірне зношення шин, погіршення гальмування, аварійна ситуація.</p>
+          </div>
+          <div>
+            <p class="prob-row-lbl lbl-s">✓ Наше рішення</p>
+            <p class="prob-row-txt">Повна діагностика ходової частини та заміна зношених компонентів з гарантією.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="prob-card rv d2">
+        <span class="prob-emoji" role="img" aria-label="Знак стоп">🛑</span>
+        <h3 class="prob-t">Проблеми з гальмами</h3>
+        <div class="prob-rows">
+          <div>
+            <p class="prob-row-lbl lbl-d">⚠ Небезпека</p>
+            <p class="prob-row-txt">Несправні гальма &mdash; пряма загроза вашому життю та безпеці на дорозі.</p>
+          </div>
+          <div>
+            <p class="prob-row-lbl lbl-c">💸 Наслідки</p>
+            <p class="prob-row-txt">Збільшення гальмівного шляху, відмова гальм на великій швидкості.</p>
+          </div>
+          <div>
+            <p class="prob-row-lbl lbl-s">✓ Наше рішення</p>
+            <p class="prob-row-txt">Термінова заміна колодок, дисків або прокачування гальмівної системи.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="prob-card rv d3">
+        <span class="prob-emoji" role="img" aria-label="Ноутбук">💻</span>
+        <h3 class="prob-t">Помилки електроніки</h3>
+        <div class="prob-rows">
+          <div>
+            <p class="prob-row-lbl lbl-d">⚠ Небезпека</p>
+            <p class="prob-row-txt">Помилки ECU вимикають ABS, ESP, подушки безпеки в критичний момент.</p>
+          </div>
+          <div>
+            <p class="prob-row-lbl lbl-c">💸 Наслідки</p>
+            <p class="prob-row-txt">Підвищена витрата пального, нестабільна робота двигуна, відмова систем безпеки.</p>
+          </div>
+          <div>
+            <p class="prob-row-lbl lbl-s">✓ Наше рішення</p>
+            <p class="prob-row-txt">Комп'ютерна діагностика та перепрограмування ЕБУ офіційним обладнанням.</p>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ═══════════════ WHY US ═══════════════ -->
+  <section class="s why" id="why" aria-labelledby="why-h">
+    <p class="lbl">Наші переваги</p>
+    <h2 class="h2" id="why-h">Чому обирають <em>Maestro</em></h2>
+
+    <div class="why-grid">
+      <div class="why-card rv">
+        <div class="why-ico" aria-hidden="true"><i class="fa-solid fa-user-tie"></i></div>
+        <h3 class="why-t">Досвідчені майстри</h3>
+        <p class="why-d">10+ років досвіду. Регулярна сертифікація та навчання від провідних виробників.</p>
+      </div>
+      <div class="why-card rv d1">
+        <div class="why-ico" aria-hidden="true"><i class="fa-solid fa-microchip"></i></div>
+        <h3 class="why-t">Сучасне обладнання</h3>
+        <p class="why-d">Офіційне діагностичне обладнання Bosch та Snap-on для всіх марок авто.</p>
+      </div>
+      <div class="why-card rv d2">
+        <div class="why-ico" aria-hidden="true"><i class="fa-solid fa-shield-halved"></i></div>
+        <h3 class="why-t">Гарантія 12 місяців</h3>
+        <p class="why-d">Гарантія на всі виконані роботи та встановлені запчастини. Без зайвих питань.</p>
+      </div>
+      <div class="why-card rv d3">
+        <div class="why-ico" aria-hidden="true"><i class="fa-solid fa-clock"></i></div>
+        <h3 class="why-t">Швидкий ремонт</h3>
+        <p class="why-d">Більшість робіт виконуємо в день звернення. Цінуємо ваш час так само, як свій.</p>
+      </div>
+      <div class="why-card rv d4">
+        <div class="why-ico" aria-hidden="true"><i class="fa-solid fa-tag"></i></div>
+        <h3 class="why-t">Прозорі ціни</h3>
+        <p class="why-d">Фіксована вартість без прихованих доплат. Погоджуємо кошторис до початку робіт.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ ABOUT ═══════════════ -->
+  <section class="s about" id="about" aria-labelledby="about-h">
+    <div class="about-inner">
+      <div class="about-img-wrap rv">
+        <img
+          class="about-img"
+          src="https://images.unsplash.com/photo-1620288627223-53302f4e8c74?auto=format&fit=crop&w=800&q=80"
+          alt="Майстерня Maestro — сучасне обладнання і команда фахівців"
+          loading="lazy"
+          width="800" height="490"
+        >
+        <div class="about-bdg" role="complementary" aria-label="Рік заснування">
+          <div class="about-bdg-n">2014</div>
+          <div class="about-bdg-l">Рік заснування</div>
+        </div>
+      </div>
+
+      <div class="about-txt rv d2">
+        <p class="lbl">Про компанію</p>
+        <h2 class="h2" id="about-h">Наша <em>місія</em> &mdash; ваша безпека на дорозі</h2>
+        <p>Maestro заснована у 2014 році командою ентузіастів, які вирішили змінити уявлення про автосервіс в Україні. Ми поєднали передові технології діагностики з майстерністю досвідчених механіків.</p>
+        <p>Наша місія &mdash; надавати послуги преміального рівня за справедливою ціною. За 10 років ми обслужили понад 5 000 автомобілів і здобули репутацію найнадійнішого автосервісу в регіоні.</p>
+        <p>Кожен механік проходить регулярне навчання та сертифікацію. Ми не просто ремонтуємо &mdash; ми піклуємось про ваш автомобіль і вашу безпеку.</p>
+        <div class="about-vals">
+          <div class="about-val"><i class="fa-solid fa-check" aria-hidden="true"></i> Чесність і прозорість</div>
+          <div class="about-val"><i class="fa-solid fa-check" aria-hidden="true"></i> Якість понад усе</div>
+          <div class="about-val"><i class="fa-solid fa-check" aria-hidden="true"></i> Повага до клієнта</div>
+          <div class="about-val"><i class="fa-solid fa-check" aria-hidden="true"></i> Постійний розвиток</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ REVIEWS ═══════════════ -->
+  <section class="s reviews" id="reviews" aria-labelledby="rv-h">
+    <p class="lbl">Відгуки клієнтів</p>
+    <h2 class="h2" id="rv-h">Що кажуть про <em>нас</em></h2>
+
+    <div class="rv-wrap" role="region" aria-label="Відгуки клієнтів">
+      <div class="rv-track" id="rv-track">
+
+        <article class="rv-card">
+          <div class="rv-stars" aria-label="5 зірок">★★★★★</div>
+          <p class="rv-txt">Звертався з проблемою перегріву двигуна. Хлопці швидко знайшли причину — лопнув шланг системи охолодження. Відремонтували за 3 години, ціна адекватна. Дуже задоволений!</p>
+          <div class="rv-author">
+            <div class="rv-av" aria-hidden="true">ОГ</div>
+            <div>
+              <p class="rv-name">Олег Г.</p>
+              <p class="rv-car">Volkswagen Passat B7</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="rv-card">
+          <div class="rv-stars" aria-label="5 зірок">★★★★★</div>
+          <p class="rv-txt">Довго шукала нормальний сервіс для своєї Тойоти. Maestro — найкраще, що знайшла. Чесні ціни, якісна робота, завжди пояснюють що і навіщо роблять.</p>
+          <div class="rv-author">
+            <div class="rv-av" aria-hidden="true">МК</div>
+            <div>
+              <p class="rv-name">Марина К.</p>
+              <p class="rv-car">Toyota Camry 2019</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="rv-card">
+          <div class="rv-stars" aria-label="5 зірок">★★★★★</div>
+          <p class="rv-txt">Звернувся з підозрілими стуками в передній підвісці. Діагностика безкоштовна, знайшли зношені важелі. Замінили швидко, дали гарантію 12 місяців. Рекомендую!</p>
+          <div class="rv-author">
+            <div class="rv-av" aria-hidden="true">АП</div>
+            <div>
+              <p class="rv-name">Андрій П.</p>
+              <p class="rv-car">BMW 5 Series F10</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="rv-card">
+          <div class="rv-stars" aria-label="5 зірок">★★★★★</div>
+          <p class="rv-txt">Дуже подобається підхід — спочатку показують що зламалось, пояснюють причину, потім починають ремонт. Жодного разу не нав'язали зайвих робіт. Тільки сюди!</p>
+          <div class="rv-author">
+            <div class="rv-av" aria-hidden="true">ТС</div>
+            <div>
+              <p class="rv-name">Тетяна С.</p>
+              <p class="rv-car">Hyundai Tucson 2021</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="rv-card">
+          <div class="rv-stars" aria-label="5 зірок">★★★★★</div>
+          <p class="rv-txt">Приїхав на планове ТО — все зробили чітко і швидко. Оливу, фільтри поміняли, перевірили всі системи. Виїхав через 1.5 години. Ціна нижча, ніж у дилерів.</p>
+          <div class="rv-author">
+            <div class="rv-av" aria-hidden="true">РБ</div>
+            <div>
+              <p class="rv-name">Роман Б.</p>
+              <p class="rv-car">Skoda Octavia A7</p>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <div class="rv-ctrls">
+      <button class="rv-btn" id="rv-prev" aria-label="Попередній відгук"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button>
+      <button class="rv-btn" id="rv-next" aria-label="Наступний відгук"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
+    </div>
+  </section>
+
+  <!-- ═══════════════ CONTACT FORM ═══════════════ -->
+  <section class="s contact" id="contact" aria-labelledby="cf-h">
+    <div class="contact-inner">
+      <div class="rv">
+        <p class="lbl">Зв'язатись з нами</p>
+        <h2 class="h2" id="cf-h">Залиште <em>заявку</em></h2>
+        <p class="sub">Опишіть проблему, і наш майстер зателефонує вам протягом 15 хвилин. Безкоштовна консультація.</p>
+        <div class="ci-list">
+          <div class="ci-item">
+            <div class="ci-ico" aria-hidden="true"><i class="fa-solid fa-phone"></i></div>
+            <div>
+              <p class="ci-lbl">Телефон</p>
+              <p class="ci-val">+38 (067) 123-45-67</p>
+            </div>
+          </div>
+          <div class="ci-item">
+            <div class="ci-ico" aria-hidden="true"><i class="fa-solid fa-circle-check"></i></div>
+            <div>
+              <p class="ci-lbl">Відповідь</p>
+              <p class="ci-val">Протягом 15 хвилин</p>
+            </div>
+          </div>
+          <div class="ci-item">
+            <div class="ci-ico" aria-hidden="true"><i class="fa-solid fa-shield-halved"></i></div>
+            <div>
+              <p class="ci-lbl">Гарантія</p>
+              <p class="ci-val">12 місяців на всі роботи</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cf rv d2">
+        <div id="form-body">
+          <p class="cf-h">Форма зворотного зв'язку</p>
+          <div class="form-grid">
+            <div class="fg">
+              <label for="f-name">Ваше ім'я *</label>
+              <input type="text" id="f-name" name="name" placeholder="Іван Іванов" autocomplete="name" required>
+            </div>
+            <div class="fg">
+              <label for="f-phone">Телефон *</label>
+              <input type="tel" id="f-phone" name="phone" placeholder="+38 (0__) ___-__-__" autocomplete="tel" required>
+            </div>
+            <div class="fg full">
+              <label for="f-car">Марка та модель автомобіля</label>
+              <input type="text" id="f-car" name="car" placeholder="Наприклад: Toyota Camry 2020">
+            </div>
+            <div class="fg full">
+              <label for="f-prob">Опис проблеми</label>
+              <textarea id="f-prob" name="problem" rows="4" placeholder="Опишіть симптоми або несправність вашого автомобіля..."></textarea>
+            </div>
+          </div>
+          <button type="button" class="form-submit" id="form-submit">
+            <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
+            Відправити заявку
+          </button>
+        </div>
+        <div class="form-ok" id="form-ok" role="status" aria-live="polite">
+          <div class="form-ok-ico"><i class="fa-solid fa-circle-check" aria-hidden="true"></i></div>
+          <p class="form-ok-t">Заявку отримано!</p>
+          <p class="form-ok-d">Наш майстер зв'яжеться з вами протягом 15 хвилин. Дякуємо за довіру до Maestro!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ MAP + CONTACTS ═══════════════ -->
+  <section class="s map-s" id="contacts" aria-labelledby="ct-h">
+    <p class="lbl">Де нас знайти</p>
+    <h2 class="h2" id="ct-h" style="margin-bottom:2.4rem">Контакти та <em>адреса</em></h2>
+
+    <div class="map-inner">
+      <div class="map-wrap rv">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2604.9182348843!2d26.9878!3d49.4192!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x472d5b38ababab%3A0x0!2z0KXQvNC10LvRjNC90LjRhtGM0LrQuNC5LCDQo9C60YDQsNGX0L3QsCDQvtCx0LvQsNGB0YLRjA!5e0!3m2!1suk!2sua!4v1700000000001"
+          title="Maestro на Google Maps"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+
+      <div class="rv d2">
+        <div class="contacts-list">
+          <div class="ct-item">
+            <div class="ct-ico" aria-hidden="true"><i class="fa-solid fa-phone"></i></div>
+            <div>
+              <p class="ct-lbl">Телефон</p>
+              <p class="ct-val"><a href="tel:+380671234567">+38 (067) 123-45-67</a></p>
+            </div>
+          </div>
+          <div class="ct-item">
+            <div class="ct-ico" aria-hidden="true"><i class="fa-solid fa-envelope"></i></div>
+            <div>
+              <p class="ct-lbl">Email</p>
+              <p class="ct-val"><a href="mailto:info@wincode-garage.ua">info@wincode-garage.ua</a></p>
+            </div>
+          </div>
+          <div class="ct-item">
+            <div class="ct-ico" aria-hidden="true"><i class="fa-solid fa-location-dot"></i></div>
+            <div>
+              <p class="ct-lbl">Адреса</p>
+              <p class="ct-val">м. Хмельницький,<br>вул. Прибузька, 12</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="wh">
+          <p class="wh-t"><i class="fa-regular fa-clock" style="margin-right:6px;color:var(--accent)" aria-hidden="true"></i>Графік роботи</p>
+          <div class="wh-row"><span>Пн &ndash; Пт</span><span>08:00 &ndash; 19:00</span></div>
+          <div class="wh-row"><span>Субота</span><span>09:00 &ndash; 17:00</span></div>
+          <div class="wh-row"><span>Неділя</span><span>Вихідний</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ FOOTER ═══════════════ -->
+  <footer class="footer">
+    <a href="#" class="logo" aria-label="Maestro — повернутись на початок">
+      <span class="logo-a">WIN CODE</span><span class="logo-b"> GARAGE</span>
+    </a>
+    <p class="foot-copy">&copy; 2024 Maestro. Всі права захищені.</p>
+    <nav class="foot-links" aria-label="Нижня навігація">
+      <a href="#services">Послуги</a>
+      <a href="#about">Про нас</a>
+      <a href="#contact">Заявка</a>
+      <a href="#contacts">Контакти</a>
+    </nav>
+  </footer>
+
+  <script>
+    // ── Scroll progress bar
+    const pgbar = document.getElementById('pgbar');
+    window.addEventListener('scroll', () => {
+      const p = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+      pgbar.style.width = p + '%';
+    }, { passive: true });
+
+    // ── Sticky nav
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    // ── Burger menu
+    const burger = document.getElementById('burger');
+    const mobMenu = document.getElementById('mob-menu');
+    burger.addEventListener('click', () => {
+      const open = burger.classList.toggle('open');
+      mobMenu.classList.toggle('open', open);
+      burger.setAttribute('aria-expanded', open);
+    });
+    document.querySelectorAll('.ml').forEach(l => {
+      l.addEventListener('click', () => {
+        burger.classList.remove('open');
+        mobMenu.classList.remove('open');
+        burger.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // ── Scroll reveal
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); observer.unobserve(e.target); } });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.rv').forEach(el => observer.observe(el));
+
+    // ── Review slider
+    const track = document.getElementById('rv-track');
+    let idx = 0;
+    function visCount() { return window.innerWidth < 520 ? 1 : window.innerWidth < 820 ? 2 : 3; }
+    function moveSlider() {
+      const cards = track.querySelectorAll('.rv-card');
+      const vc = visCount();
+      const max = Math.max(0, cards.length - vc);
+      idx = Math.min(idx, max);
+      const w = cards[0].offsetWidth + 22.4; // card width + gap (1.4rem)
+      track.style.transform = `translateX(-${idx * w}px)`;
+      document.getElementById('rv-prev').style.opacity = idx === 0 ? '0.35' : '1';
+      document.getElementById('rv-next').style.opacity = idx >= max ? '0.35' : '1';
+    }
+    document.getElementById('rv-prev').addEventListener('click', () => { if (idx > 0) { idx--; moveSlider(); } });
+    document.getElementById('rv-next').addEventListener('click', () => {
+      const max = track.querySelectorAll('.rv-card').length - visCount();
+      if (idx < max) { idx++; moveSlider(); }
+    });
+    window.addEventListener('resize', moveSlider, { passive: true });
+    moveSlider();
+
+    // ── Form submit
+    document.getElementById('form-submit').addEventListener('click', () => {
+      const name = document.getElementById('f-name').value.trim();
+      const phone = document.getElementById('f-phone').value.trim();
+      ['f-name', 'f-phone'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el.value.trim()) {
+          el.style.borderColor = '#FF5050';
+          el.style.boxShadow = '0 0 0 3px rgba(255,80,80,.18)';
+          setTimeout(() => { el.style.borderColor = ''; el.style.boxShadow = ''; }, 2500);
+        }
+      });
+      if (!name || !phone) return;
+      document.getElementById('form-body').style.display = 'none';
+      const ok = document.getElementById('form-ok');
+      ok.style.display = 'block';
+    });
+
+    // ── Smooth scroll for anchors
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const id = a.getAttribute('href');
+        if (id === '#') return;
+        const target = document.querySelector(id);
+        if (target) { e.preventDefault(); window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 78, behavior: 'smooth' }); }
+      });
+    });
+  </script>
+</body>
+</html>
